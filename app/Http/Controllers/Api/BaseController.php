@@ -13,7 +13,7 @@ class BaseController extends Controller
         $response = [
             'success' => true,
             'data' => $result,
-            'message' => $message
+            'message' => $message,
         ];
 
         return response()->json($response, Response::HTTP_OK);
@@ -23,7 +23,7 @@ class BaseController extends Controller
     {
         $response = [
             'success' => false,
-            'message' => $error
+            'message' => $error,
         ];
 
         return response()->json($response, $code);

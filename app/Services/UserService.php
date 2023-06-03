@@ -14,7 +14,7 @@ class UserService
         $user = User::create([
             'name' => $userDTO->name,
             'email' => $userDTO->email,
-            'password' => bcrypt($userDTO->password)
+            'password' => bcrypt($userDTO->password),
         ]);
 
         return new UserResource($user);

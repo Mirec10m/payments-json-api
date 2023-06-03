@@ -30,7 +30,7 @@ class AuthController extends BaseController
     {
         $auth = $this->userService->authenticateUser($request->validated());
 
-        if(!$auth){
+        if (! $auth) {
             return $this->sendError('Credentials does not match with our records.', Response::HTTP_UNAUTHORIZED);
         }
 
@@ -39,7 +39,7 @@ class AuthController extends BaseController
 
         $response = [
             'user' => new UserResource($user),
-            'jwt' => $user->createToken('token')->plainTextToken
+            'jwt' => $user->createToken('token')->plainTextToken,
         ];
 
         return $this->sendResponse($response, 'You have been logged in!');
