@@ -4,12 +4,14 @@ namespace App\Models;
 
 use App\Enums\PaymentCurrencyEnum;
 use App\Enums\PaymentProviderEnum;
+use App\Enums\PaymentStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 class Payment extends Model
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
     protected $fillable = [
         'name',
@@ -30,6 +32,6 @@ class Payment extends Model
     protected $casts = [
         'currency' => PaymentCurrencyEnum::class,
         'provider' => PaymentProviderEnum::class,
-        'status' => PaymentProviderEnum::class,
+        'status' => PaymentStatusEnum::class,
     ];
 }
