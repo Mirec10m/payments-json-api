@@ -8,7 +8,6 @@ use App\Models\Payment;
 
 class StripeGateway implements GatewayInterface
 {
-
     public function pay(Payment $payment, string $callback_url): array
     {
         // TODO: Implement pay() method.
@@ -16,7 +15,7 @@ class StripeGateway implements GatewayInterface
         // payment will be processed by call to gateway API
         return [
             'status' => PaymentStatusEnum::CREATED,
-            'message' => 'Payment was created successfully.'
+            'message' => 'Payment was created successfully.',
         ];
     }
 }
