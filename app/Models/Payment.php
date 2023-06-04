@@ -30,5 +30,6 @@ class Payment extends Model
     protected $casts = [
         'currency' => PaymentCurrencyEnum::class,
         'provider' => PaymentProviderEnum::class,
+        'status' => PaymentProviderEnum::class,
     ];
 }
