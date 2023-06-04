@@ -18,4 +18,19 @@ class PaymentDTO
     {
 
     }
+
+    public function toArray(): array
+    {
+        return  [
+            'name' => $this->name,
+            'surname' => $this->surname,
+            'email' => $this->email,
+            'address' => $this->address,
+            'postal_code' => $this->postal_code,
+            'city' => $this->city,
+            'amount' => $this->amount,
+            'currency' => $this->currency,
+            'provider' => $this->provider
+        ];
+    }
 }
