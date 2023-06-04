@@ -14,14 +14,13 @@ class PaymentDTO
         public readonly string $amount,
         public readonly string $currency,
         public readonly string $provider
-    )
-    {
+    ) {
 
     }
 
     public function toArray(): array
     {
-        return  [
+        return [
             'name' => $this->name,
             'surname' => $this->surname,
             'email' => $this->email,
@@ -30,7 +29,7 @@ class PaymentDTO
             'city' => $this->city,
             'amount' => $this->amount,
             'currency' => $this->currency,
-            'provider' => $this->provider
+            'provider' => $this->provider,
         ];
     }
 }

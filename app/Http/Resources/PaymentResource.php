@@ -18,7 +18,7 @@ class PaymentResource extends JsonResource
             'id' => $this->id,
             'amount' => $this->amount,
             'currency' => $this->currency,
-            'redirect_url' => 'second endpoint url'
+            'redirect_url' => 'second endpoint url',
         ];
     }
 }

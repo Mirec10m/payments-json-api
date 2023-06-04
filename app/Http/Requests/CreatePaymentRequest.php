@@ -35,7 +35,7 @@ class CreatePaymentRequest extends FormRequest
             'city' => ['required', 'string'],
             'amount' => ['required', 'numeric', 'between:0.00,99999999.99'],
             'currency' => ['required', new Enum(PaymentCurrencyEnum::class)],
-            'provider' => ['required', new Enum(PaymentProviderEnum::class)]
+            'provider' => ['required', new Enum(PaymentProviderEnum::class)],
         ];
     }
 }

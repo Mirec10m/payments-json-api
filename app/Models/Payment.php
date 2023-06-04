@@ -24,7 +24,7 @@ class Payment extends Model
         'provider',
         'expired_at',
         'gateway_transaction_id',
-        'gateway_url'
+        'gateway_url',
     ];
 
     protected $casts = [
