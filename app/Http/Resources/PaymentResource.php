@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\URL;
 
 class PaymentResource extends JsonResource
 {
@@ -18,7 +19,7 @@ class PaymentResource extends JsonResource
             'id' => $this->id,
             'amount' => $this->amount,
             'currency' => $this->currency,
-            'redirect_url' => 'second endpoint url',
+            'redirect_url' => URL::route('check_expired', ['payment' => $this]),
         ];
     }
 }

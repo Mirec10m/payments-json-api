@@ -5,7 +5,9 @@ namespace App\Services;
 use App\DTO\PaymentDTO;
 use App\Enums\PaymentStatusEnum;
 use App\Http\Resources\PaymentResource;
+use App\Interfaces\GatewayInterface;
 use App\Models\Payment;
+use App\Notifications\PaymentStatusChangedNotification;
 use Carbon\Carbon;
 
 class PaymentService
@@ -19,14 +21,16 @@ class PaymentService
         return new PaymentResource($payment);
     }
 
-    public function makePayment(Payment $payment): string
+    public function makePayment(Payment $payment, GatewayInterface $gateway): array
     {
         if ($payment->status == PaymentStatusEnum::EXPIRED) {
-            return 'Payment expired.';
+            return ['message' => 'Payment expired.'];
         }
 
-        // gateway -> make API call to pay
-        $response = 'response msg';
+        $response = $gateway->pay($payment, route('callback_url', $payment));
+
+        $payment->update(['status' => $response['status']]);
+        $payment->notify(new PaymentStatusChangedNotification());
 
         return $response;
     }

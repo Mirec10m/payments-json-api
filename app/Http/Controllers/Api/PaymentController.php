@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\DTO\PaymentDTO;
 use App\Http\Requests\CreatePaymentRequest;
+use App\Interfaces\GatewayInterface;
 use App\Models\Payment;
 use App\Services\PaymentService;
 use Illuminate\Http\JsonResponse;
@@ -22,10 +23,10 @@ class PaymentController extends BaseController
         return $this->sendResponse($payment, 'Payment created.');
     }
 
-    public function check(Payment $payment): JsonResponse
+    public function check(Payment $payment, GatewayInterface $gateway): JsonResponse
     {
-        $msg = $this->paymentService->makePayment($payment);
+        $response = $this->paymentService->makePayment($payment, $gateway);
 
-        return $this->sendResponse($payment, $msg);
+        return $this->sendResponse($payment, $response['message']);
     }
 }
