@@ -13,4 +13,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // FIRST ENDPOINT
     Route::post('/payments', [PaymentController::class, 'create']);
+
+    // SECOND ENDPOINT
+    Route::get('/payments/check/{payment}', [PaymentController::class, 'check'])->name('check_expired');
 });
