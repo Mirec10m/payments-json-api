@@ -9,6 +9,7 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends BaseController
@@ -43,5 +44,17 @@ class AuthController extends BaseController
         ];
 
         return $this->sendResponse($response, 'You have been logged in!');
+    }
+
+    public function me(): JsonResponse
+    {
+        return $this->sendResponse(new UserResource(auth()->user()));
+    }
+
+    public function logout(Request $request): JsonResponse
+    {
+        $request->user()->currentAccessToken()->delete();
+
+        return $this->sendResponse(null, 'You have been logged out!');
     }
 }
