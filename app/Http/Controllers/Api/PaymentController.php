@@ -8,6 +8,7 @@ use App\Interfaces\GatewayInterface;
 use App\Models\Payment;
 use App\Services\PaymentService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class PaymentController extends BaseController
 {
@@ -28,5 +29,12 @@ class PaymentController extends BaseController
         $response = $this->paymentService->makePayment($payment, $gateway);
 
         return $this->sendResponse($payment, $response['message']);
+    }
+
+    public function callback(Payment $payment, Request $request): JsonResponse
+    {
+        $this->paymentService->processPayment($payment, $request);
+
+        return $this->sendResponse(null, 'Payment was processed.');
     }
 }

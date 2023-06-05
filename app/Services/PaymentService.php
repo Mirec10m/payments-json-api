@@ -9,6 +9,7 @@ use App\Interfaces\GatewayInterface;
 use App\Models\Payment;
 use App\Notifications\PaymentStatusChangedNotification;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class PaymentService
 {
@@ -33,5 +34,11 @@ class PaymentService
         $payment->notify(new PaymentStatusChangedNotification());
 
         return $response;
+    }
+
+    public function processPayment(Payment $payment, Request $request): void
+    {
+        $payment->status = PaymentStatusEnum::from($request->status);
+        $payment->notify(new PaymentStatusChangedNotification());
     }
 }

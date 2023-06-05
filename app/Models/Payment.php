@@ -7,6 +7,7 @@ use App\Enums\PaymentProviderEnum;
 use App\Enums\PaymentStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 
 class Payment extends Model
@@ -34,4 +35,9 @@ class Payment extends Model
         'provider' => PaymentProviderEnum::class,
         'status' => PaymentStatusEnum::class,
     ];
+
+    public function payment_logs(): HasMany
+    {
+        return $this->hasMany(PaymentLog::class);
+    }
 }
