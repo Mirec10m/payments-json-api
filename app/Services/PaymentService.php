@@ -8,13 +8,13 @@ use App\Events\PaymentStatusChangedEvent;
 use App\Http\Resources\PaymentResource;
 use App\Interfaces\GatewayInterface;
 use App\Models\Payment;
-use App\Notifications\PaymentStatusChangedNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 
 class PaymentService
 {
-    public function createPayment(PaymentDTO $paymentDTO): PaymentResource
+    public function createPayment(PaymentDTO $paymentDTO): array
     {
         $payment = Payment::create($paymentDTO->toArray());
         $payment->expired_at = Carbon::now()->addDay();
@@ -23,7 +23,11 @@ class PaymentService
 
         PaymentStatusChangedEvent::dispatch($payment, PaymentStatusEnum::NEW);
 
-        return new PaymentResource($payment);
+        return [
+            'amount' => $payment->amount,
+            'currency' => $payment->currency,
+            'redirect_url' => URL::route('check_expired', ['payment' => $payment]),
+        ];
     }
 
     public function makePayment(Payment $payment, GatewayInterface $gateway): array

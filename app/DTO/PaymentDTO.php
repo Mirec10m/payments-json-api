@@ -2,6 +2,8 @@
 
 namespace App\DTO;
 
+use Illuminate\Support\Facades\Crypt;
+
 class PaymentDTO
 {
     public function __construct(
@@ -21,10 +23,10 @@ class PaymentDTO
     public function toArray(): array
     {
         return [
-            'name' => $this->name,
-            'surname' => $this->surname,
+            'name' => Crypt::encryptString($this->name),
+            'surname' => Crypt::encryptString($this->surname),
             'email' => $this->email,
-            'address' => $this->address,
+            'address' => Crypt::encryptString($this->address),
             'postal_code' => $this->postal_code,
             'city' => $this->city,
             'amount' => $this->amount,

@@ -3,7 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Crypt;
 
 class PaymentResource extends JsonResource
 {
@@ -17,9 +17,16 @@ class PaymentResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'name' => Crypt::decryptString($this->name),
+            'surname' => Crypt::decryptString($this->surname),
+            'email' => $this->email,
+            'address' => Crypt::decryptString($this->address),
+            'postal_code' => $this->postal_code,
+            'city' => $this->city,
             'amount' => $this->amount,
             'currency' => $this->currency,
-            'redirect_url' => URL::route('check_expired', ['payment' => $this]),
+            'status' => $this->status,
+            'provider' => $this->provider,
         ];
     }
 }
