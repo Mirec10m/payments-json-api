@@ -5,7 +5,6 @@ namespace App\Services;
 use App\DTO\PaymentDTO;
 use App\Enums\PaymentStatusEnum;
 use App\Events\PaymentStatusChangedEvent;
-use App\Http\Resources\PaymentResource;
 use App\Interfaces\GatewayInterface;
 use App\Models\Payment;
 use Carbon\Carbon;

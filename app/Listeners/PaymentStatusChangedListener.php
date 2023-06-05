@@ -20,14 +20,13 @@ class PaymentStatusChangedListener
     /**
      * Handle the event.
      *
-     * @param  \App\Events\PaymentStatusChangedEvent  $event
      * @return void
      */
     public function handle(PaymentStatusChangedEvent $event)
     {
         $event->payment->payment_logs()->create([
             'status' => $event->status,
-            'metadata' => $event->metadata
+            'metadata' => $event->metadata,
         ]);
         $event->payment->notify(new PaymentStatusChangedNotification());
     }

@@ -22,8 +22,7 @@ class PaymentStatusChangedEvent
         public Payment $payment,
         public PaymentStatusEnum $status,
         public $metadata = null
-    )
-    {
+    ) {
         //
     }
 

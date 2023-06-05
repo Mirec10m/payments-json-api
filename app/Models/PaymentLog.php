@@ -13,7 +13,7 @@ class PaymentLog extends Model
     protected $fillable = [
         'status',
         'metadata',
-        'payment_id'
+        'payment_id',
     ];
 
     public function payment(): BelongsTo
