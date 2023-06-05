@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Enums\PaymentStatusEnum;
+use App\Events\PaymentStatusChangedEvent;
 use App\Models\Payment;
 use App\Notifications\PaymentStatusChangedNotification;
 use Carbon\Carbon;
@@ -45,10 +46,7 @@ class ExpirePaymentJob implements ShouldQueue
             $payments->toQuery()->update(['status' => PaymentStatusEnum::EXPIRED]);
 
             $payments->map(function ($payment) {
-                $payment->notify(new PaymentStatusChangedNotification());
-                $payment->payment_logs()->create([
-                    'status' => PaymentStatusEnum::EXPIRED,
-                ]);
+                PaymentStatusChangedEvent::dispatch($payment, PaymentStatusEnum::EXPIRED);
             });
         }
     }

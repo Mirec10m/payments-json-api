@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\DTO\PaymentDTO;
 use App\Enums\PaymentStatusEnum;
+use App\Events\PaymentStatusChangedEvent;
 use App\Http\Resources\PaymentResource;
 use App\Interfaces\GatewayInterface;
 use App\Models\Payment;
@@ -20,10 +21,7 @@ class PaymentService
         $payment->status = PaymentStatusEnum::NEW;
         $payment->save();
 
-        $payment->notify(new PaymentStatusChangedNotification());
-        $payment->payment_logs()->create([
-            'status' => PaymentStatusEnum::NEW,
-        ]);
+        PaymentStatusChangedEvent::dispatch($payment, PaymentStatusEnum::NEW);
 
         return new PaymentResource($payment);
     }
@@ -35,13 +33,9 @@ class PaymentService
         }
 
         $response = $gateway->pay($payment, route('callback_url', $payment));
-
         $payment->update(['status' => $response['status']]);
-        $payment->notify(new PaymentStatusChangedNotification());
-        $payment->payment_logs()->create([
-            'status' => $response['status'],
-            'metadata' => $response['metadata'],
-        ]);
+
+        PaymentStatusChangedEvent::dispatch($payment, $response['status'], $response['metadata']);
 
         return $response;
     }
@@ -49,10 +43,7 @@ class PaymentService
     public function processPayment(Payment $payment, Request $request): void
     {
         $payment->status = PaymentStatusEnum::from($request->status);
-        $payment->notify(new PaymentStatusChangedNotification());
-        $payment->payment_logs()->create([
-            'status' => $request->status,
-            'metadata' => $request->metadata,
-        ]);
+
+        PaymentStatusChangedEvent::dispatch($payment, $request->status, $request->metadata);
     }
 }
