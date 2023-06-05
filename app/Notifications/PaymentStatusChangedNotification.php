@@ -42,7 +42,7 @@ class PaymentStatusChangedNotification extends Notification implements ShouldQue
     {
         return (new MailMessage)
             ->greeting('Hello!')
-            ->line('Transaction status have been changed to '.$notifiable->status->value);
+            ->line('Payment status have been changed to '.$notifiable->status->value);
     }
 
     /**

@@ -15,6 +15,10 @@ class StripeGateway implements GatewayInterface
         // payment will be processed by call to gateway API
         return [
             'status' => PaymentStatusEnum::CREATED,
+            'metadata' => json_encode([
+                'success' => true,
+                'somethingElse' => 'Lorem ipsum',
+            ]),
             'message' => 'Payment was created successfully.',
         ];
     }

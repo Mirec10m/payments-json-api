@@ -38,11 +38,18 @@ class ExpirePaymentJob implements ShouldQueue
             $q->where('status', '!=', PaymentStatusEnum::EXPIRED)
                 ->where('status', '!=', PaymentStatusEnum::PAID)
                 ->orWhereNull('status');
-        })->where('expired_at', '<', Carbon::now());
+        })->where('expired_at', '<', Carbon::now())
+        ->get();
 
-        $paymentsToNotify = $payments->get();
-        $payments->update(['status' => PaymentStatusEnum::EXPIRED]);
+        if ($payments->isNotEmpty()){
+            $payments->toQuery()->update(['status' => PaymentStatusEnum::EXPIRED]);
 
-        Notification::send($paymentsToNotify, new PaymentStatusChangedNotification());
+            $payments->map(function ($payment) {
+                $payment->notify(new PaymentStatusChangedNotification());
+                $payment->payment_logs()->create([
+                    'status' => PaymentStatusEnum::EXPIRED,
+                ]);
+            });
+        }
     }
 }

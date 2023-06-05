@@ -17,7 +17,13 @@ class PaymentService
     {
         $payment = Payment::create($paymentDTO->toArray());
         $payment->expired_at = Carbon::now()->addDay();
+        $payment->status = PaymentStatusEnum::NEW;
         $payment->save();
+
+        $payment->notify(new PaymentStatusChangedNotification());
+        $payment->payment_logs()->create([
+            'status' => PaymentStatusEnum::NEW,
+        ]);
 
         return new PaymentResource($payment);
     }
@@ -32,6 +38,10 @@ class PaymentService
 
         $payment->update(['status' => $response['status']]);
         $payment->notify(new PaymentStatusChangedNotification());
+        $payment->payment_logs()->create([
+            'status' => $response['status'],
+            'metadata' => $response['metadata'],
+        ]);
 
         return $response;
     }
@@ -40,5 +50,9 @@ class PaymentService
     {
         $payment->status = PaymentStatusEnum::from($request->status);
         $payment->notify(new PaymentStatusChangedNotification());
+        $payment->payment_logs()->create([
+            'status' => $request->status,
+            'metadata' => $request->metadata,
+        ]);
     }
 }
