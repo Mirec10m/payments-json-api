@@ -25,7 +25,7 @@ class PaymentService
         return [
             'amount' => $payment->amount,
             'currency' => $payment->currency,
-            'redirect_url' => URL::route('check_expired', ['payment' => $payment]),
+            'redirect_url' => URL::signedRoute('check_expired', $payment),
         ];
     }
 
@@ -35,7 +35,7 @@ class PaymentService
             return ['message' => 'Payment expired.'];
         }
 
-        $response = $gateway->pay($payment, route('callback_url', $payment));
+        $response = $gateway->pay($payment, URL::signedRoute('callback_url', $payment));
         $payment->update(['status' => $response['status']]);
 
         PaymentStatusChangedEvent::dispatch($payment, $response['status'], $response['metadata']);
@@ -45,8 +45,8 @@ class PaymentService
 
     public function processPayment(Payment $payment, Request $request): void
     {
-        $payment->status = PaymentStatusEnum::from($request->status);
+        $payment->update(['status' => PaymentStatusEnum::from($request->status)]);
 
-        PaymentStatusChangedEvent::dispatch($payment, $request->status, $request->metadata);
+        PaymentStatusChangedEvent::dispatch($payment, $payment->status, $request->metadata);
     }
 }
