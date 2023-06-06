@@ -8,12 +8,13 @@ use Tests\TestCase;
 class RegisterTest extends TestCase
 {
     use RefreshDatabase;
+
     /**
-     * A basic feature test example.
+     * Test if User can be registered
      *
      * @return void
      */
-    public function test_new_user_can_be_registered()
+    public function test_new_user_can_be_registered(): void
     {
         $response = $this->post('/api/auth/register', [
             'name' => 'Test user',
