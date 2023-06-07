@@ -34,8 +34,8 @@ class ExpirePaymentJob implements ShouldQueue
     public function handle()
     {
         $payments = Payment::where(function ($q) {
-            $q->where('status', '!=', PaymentStatusEnum::EXPIRED)
-                ->where('status', '!=', PaymentStatusEnum::PAID)
+            $q->where('status', PaymentStatusEnum::NEW->value)
+                ->orWhere('status', PaymentStatusEnum::CREATED->value)
                 ->orWhereNull('status');
         })->where('expired_at', '<', Carbon::now())
             ->get();
