@@ -11,8 +11,6 @@ class RegisterTest extends TestCase
 
     /**
      * Test if User can be registered
-     *
-     * @return void
      */
     public function test_new_user_can_be_registered(): void
     {
@@ -28,7 +26,7 @@ class RegisterTest extends TestCase
             'data' => [
                 'name' => 'Test user',
                 'email' => 'test.user@test.com',
-            ]
+            ],
         ]);
     }
 }

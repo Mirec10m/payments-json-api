@@ -12,8 +12,6 @@ class LoginTest extends TestCase
 
     /**
      * Test if User can be logged in
-     *
-     * @return void
      */
     public function test_user_can_login(): void
     {
@@ -30,8 +28,6 @@ class LoginTest extends TestCase
 
     /**
      * Test that User can not be logged in using wrong password
-     *
-     * @return void
      */
     public function test_user_can_not_login_with_invalid_password(): void
     {
@@ -39,7 +35,7 @@ class LoginTest extends TestCase
 
         $this->post('/api/auth/login', [
             'email' => $user->email,
-            'password' => 'wrong-password'
+            'password' => 'wrong-password',
         ]);
 
         $this->assertGuest();
