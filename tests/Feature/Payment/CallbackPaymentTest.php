@@ -7,17 +7,15 @@ use App\Http\Middleware\ValidateSignature;
 use App\Models\Payment;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class CallbackPaymentTest extends TestCase
 {
     use RefreshDatabase;
+
     /**
      * Test if data can be processed on Payment callback URL.
-     *
-     * @return void
      */
     public function test_data_can_be_processed_on_payment_callback_url(): void
     {
@@ -38,7 +36,7 @@ class CallbackPaymentTest extends TestCase
         ];
 
         $response = $this->withoutMiddleware(ValidateSignature::class)
-            ->post('/api/payments/callback/' . $payment->id, $data);
+            ->post('/api/payments/callback/'.$payment->id, $data);
 
         $response->assertStatus(200);
         $this->assertDatabaseHas('payments', [

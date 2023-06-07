@@ -9,9 +9,7 @@ use App\Models\Payment;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\URL;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -21,8 +19,6 @@ class PaymentStatusChangedEventTest extends TestCase
 
     /**
      * Test if PaymentStatusChangedEvent can be dispatched when Payment status changes.
-     *
-     * @return void
      */
     public function test_event_is_dispatched_when_status_changes(): void
     {
@@ -37,7 +33,7 @@ class PaymentStatusChangedEventTest extends TestCase
         Sanctum::actingAs($user);
 
         $response = $this->withoutMiddleware(ValidateSignature::class)
-            ->get('/api/payments/check/' . $payment->id);
+            ->get('/api/payments/check/'.$payment->id);
 
         Event::assertDispatched(PaymentStatusChangedEvent::class);
 
