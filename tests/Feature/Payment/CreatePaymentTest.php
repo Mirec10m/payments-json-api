@@ -11,6 +11,8 @@ use Tests\TestCase;
 
 class CreatePaymentTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * Test if Payment can be created.
      *

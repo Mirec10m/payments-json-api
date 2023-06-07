@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Enums\PaymentProviderEnum;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Crypt;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Payment>
@@ -19,10 +19,10 @@ class PaymentFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->firstName,
-            'surname' => fake()->lastName,
+            'name' => Crypt::encryptString(fake()->firstName),
+            'surname' => Crypt::encryptString(fake()->lastName),
             'email' => fake()->email,
-            'address' => fake()->streetAddress,
+            'address' => Crypt::encryptString(fake()->streetAddress),
             'postal_code' => fake()->postcode,
             'city' => fake()->city,
             'amount' => fake()->numberBetween(10, 1000),

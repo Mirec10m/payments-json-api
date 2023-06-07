@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('surname');
+            $table->text('name');
+            $table->text('surname');
             $table->string('email');
-            $table->string('address');
+            $table->text('address');
             $table->string('postal_code');
             $table->string('city');
             $table->decimal('amount', 10, 2);
