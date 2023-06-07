@@ -41,7 +41,7 @@ class LoginTest extends TestCase
             'email' => $user->email,
             'password' => 'wrong-password'
         ]);
-        
+
         $this->assertGuest();
     }
 }
